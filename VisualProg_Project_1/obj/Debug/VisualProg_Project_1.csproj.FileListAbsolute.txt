@@ -1,0 +1,12 @@
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\bin\Debug\VisualProg_Project_1.exe.config
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\bin\Debug\VisualProg_Project_1.exe
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\bin\Debug\VisualProg_Project_1.pdb
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.csproj.AssemblyReference.cache
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form1.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Properties.Resources.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.csproj.GenerateResource.cache
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.csproj.CoreCompileInputs.cache
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.exe
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.pdb
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form2.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form3.resources
