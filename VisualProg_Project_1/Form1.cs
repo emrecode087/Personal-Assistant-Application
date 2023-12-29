@@ -35,7 +35,7 @@ namespace VisualProg_Project_1
             try
             {
 
-                String querry = "SELECT * FROM Login WHERE username = '" + txt_username.Text + "'AND password= '" + txt_password.Text + "'";
+                String querry = "SELECT * FROM teachers WHERE username = '" + txt_username.Text + "'AND password= '" + txt_password.Text + "'";
                 SqlDataAdapter sda = new SqlDataAdapter(querry, conn);
 
                 DataTable dataTable = new DataTable();

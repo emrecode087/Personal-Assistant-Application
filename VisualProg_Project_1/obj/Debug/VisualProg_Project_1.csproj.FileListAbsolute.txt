@@ -10,3 +10,7 @@ C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Proj
 C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.pdb
 C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form2.resources
 C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form3.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Grades.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form4.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form5.resources
+C:\Users\90553\Desktop\VisualProgramming_C#\VisualProg_Project_1\VisualProg_Project_1\obj\Debug\VisualProg_Project_1.Form_5_a.resources

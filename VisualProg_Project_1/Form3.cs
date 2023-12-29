@@ -59,6 +59,7 @@ namespace VisualProg_Project_1
             Application.Exit();
         }
 
+
         private void UpdateStudentStatus(string status, bool incrementPlusPoint)
         {
             if (listView1.SelectedItems.Count > 0)
@@ -165,6 +166,11 @@ namespace VisualProg_Project_1
                                 item.SubItems.Add(reader["situation"].ToString());
                                 item.SubItems.Add(reader["plusPoint"].ToString());
 
+                                // Eğer "number of absences" (4. kolon) 4'ten büyükse "FAIL" yaz, değilse "NORMAL" yaz
+                                int numberOfAbsences = Convert.ToInt32(reader["situation"]);
+                                string absenceStatus = (numberOfAbsences > 4) ? "FAIL" : "NORMAL";
+                                item.SubItems.Add(absenceStatus);
+
                                 listView1.Items.Add(item);
                             }
                         }
@@ -175,6 +181,102 @@ namespace VisualProg_Project_1
             {
                 MessageBox.Show($"Öğrenciler çekilirken bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void search_Student_Click(object sender, EventArgs e)
+        {
+            string searchName = textBox1.Text.Trim();
+
+            if (string.IsNullOrEmpty(searchName))
+            {
+                MessageBox.Show("Lütfen bir isim girin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check if the selected class is not null
+            if (comboBox1.SelectedItem != null)
+            {
+                string selectedClass = comboBox1.SelectedItem.ToString();
+
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(@"Data Source=EXCALIBUR\SQLEXPRESS;Initial Catalog=projectDataBase;Integrated Security=True"))
+                    {
+                        connection.Open();
+
+                        string query = $"SELECT * FROM {selectedClass} WHERE name LIKE @searchName";
+
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@searchName", $"%{searchName}%");
+
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                listView1.Items.Clear();
+
+                                while (reader.Read())
+                                {
+                                    ListViewItem item = new ListViewItem(reader["id"].ToString());
+                                    item.SubItems.Add(reader["name"].ToString());
+                                    item.SubItems.Add(reader["surname"].ToString());
+                                    item.SubItems.Add(reader["situation"].ToString());
+                                    item.SubItems.Add(reader["plusPoint"].ToString());
+
+                                    listView1.Items.Add(item);
+                                }
+
+                                if (listView1.Items.Count == 0)
+                                {
+                                    MessageBox.Show("Belirtilen isme sahip öğrenci bulunamadı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Öğrenci aranırken bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen bir sınıf seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            // Check if the text in textBox1 is empty, if so, display all students again
+            if (string.IsNullOrEmpty(textBox1.Text.Trim()))
+            {
+                // Display all students for the selected class
+                list_button_Click(sender, e);
+            }
+        }
+
+        private bool firstClick = true;
+        private void finish_Click(object sender, EventArgs e)
+        {
+            if (firstClick)
+            {
+                firstClick = false;
+            }
+            else 
+            {
+                if(comboBox1.SelectedItem == null || comboBox2.SelectedItem == null) 
+                {
+                    MessageBox.Show("You did not start the class", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Week is completed ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Form2 form3 = new Form2();
+                    form3.Show();
+                    this.Hide();
+                }
+                
+            }
+            
         }
     }
 }
