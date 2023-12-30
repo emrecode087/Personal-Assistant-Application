@@ -6,11 +6,13 @@ namespace VisualProg_Project_1
 {
     public partial class Form2 : Form
     {
+        
         private Timer timer;
         public Form2()
         {
             InitializeComponent();
             LoadTeacherData(); // Sayfa yüklendiğinde öğretmen verilerini yükle
+            
 
             // Timer'ı oluştur
             timer = new Timer();
@@ -115,8 +117,8 @@ namespace VisualProg_Project_1
                 if (timeSinceLastClick.TotalSeconds <= 1)
                 {
                     // Sayfayı geçiş yap
-                    Form4 form2 = new Form4();
-                    form2.Show();
+                    Form4 form = new Form4();
+                    form.Show();
                     this.Hide();
                 }
                 else
@@ -126,7 +128,7 @@ namespace VisualProg_Project_1
                 }
             }
         }
-        private Form5 form5Instance;
+        
         private void button4_Click(object sender, EventArgs e)
         {
             if (firstClick_2)
@@ -217,6 +219,38 @@ namespace VisualProg_Project_1
                 }
             }
 
+
+        }
+
+        
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (firstClick_2)
+            {
+                // İlk tıklamada sadece değişkeni güncelle, sayfayı geçiş yapma
+                firstClick_2 = false;
+                lastClickTime = DateTime.Now;
+            }
+            else
+            {
+                // İkinci tıklamada, bir saniye içinde olmalı
+                TimeSpan timeSinceLastClick = DateTime.Now - lastClickTime;
+
+                if (timeSinceLastClick.TotalSeconds <= 1)
+                {
+
+                    // Sayfayı geçiş yap
+                    Form6 form = new Form6();
+                    form.Show();
+                    //this.Hide();
+                }
+                else
+                {
+                    // Reset for the next first click
+                    firstClick_2 = true;
+                }
+            }
 
         }
     }

@@ -7,22 +7,25 @@ namespace VisualProg_Project_1
     public partial class Form3 : Form
     {
         private string selectedClass;
-
+        
         public Form3()
         {
             InitializeComponent();
             FillComboBoxWithCourseNames(); // ComboBox'ı doldur
+            
         }
-
+        
         private void FillComboBoxWithCourseNames()
         {
+            
             try
             {
                 using (SqlConnection connection = new SqlConnection(@"Data Source=EXCALIBUR\SQLEXPRESS;Initial Catalog=projectDataBase;Integrated Security=True"))
                 {
                     connection.Open();
+                    
+                    string query = "SELECT DISTINCT class_1, class_2, class_3, class_4, class_5 FROM teachers WHERE name = 'Emre'";
 
-                    string query = "SELECT DISTINCT class_1, class_2, class_3, class_4, class_5 FROM teachers";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {

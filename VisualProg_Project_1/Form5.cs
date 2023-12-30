@@ -31,47 +31,22 @@ namespace VisualProg_Project_1
                 {
                     connection.Open();
 
-                    // Öğretmen adı ve soyadı burada bir değerle değiştirilmelidir.
-                    string teacherName = "Emre";
-                    string teacherSurname = "Baş";
+                    // Öğrenci notları verilerini çeken sorgu
+                    string query = "SELECT subject, noteText FROM tch_note";
 
-                    string query = $"SELECT note_1, note_2, note_3, note_4, note_5, note_6, note_7, note_8, note_9, note_10, note_11, note_12, note_13, note_14 FROM teachers WHERE name = @TeacherName AND surname = @TeacherSurname";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@TeacherName", teacherName);
-                        command.Parameters.AddWithValue("@TeacherSurname", teacherSurname);
-
-                        SqlDataReader reader = command.ExecuteReader();
-
-                        if (reader.Read())
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            // Sütun adlarını ve değerlerini bir koleksiyona ekle
-                            List<Tuple<int, string>> columnData = new List<Tuple<int, string>>();
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            while (reader.Read())
                             {
-                                string columnName = reader.GetName(i);
-                                string columnValue = Convert.ToString(reader[columnName]);
+                                // Her bir notu ListView'a ekleyin
+                                ListViewItem item = new ListViewItem(reader["subject"].ToString());
+                                item.SubItems.Add(reader["noteText"].ToString());
 
-                                // Sayıyı ayıkla
-                                int noteNumber = int.Parse(columnName.Split('_')[1]);
-
-                                columnData.Add(new Tuple<int, string>(noteNumber, columnValue));
-                            }
-
-                            // Koleksiyonu sırala
-                            columnData.Sort((x, y) => x.Item1.CompareTo(y.Item1));
-
-                            // Listview'e sıralı sütun adlarını ve değerlerini ekle
-                            foreach (var data in columnData)
-                            {
-                                string columnName = $"note_{data.Item1}";
-                                ListViewItem item = new ListViewItem(columnName);
-                                item.SubItems.Add(data.Item2);
                                 listView1.Items.Add(item);
                             }
                         }
-
-                        reader.Close();
                     }
                 }
             }
@@ -113,10 +88,11 @@ namespace VisualProg_Project_1
 
         private void button4_Click(object sender, EventArgs e)
         {
+            // Eğer ListView'da seçili bir öğe varsa devam et
             if (listView1.SelectedItems.Count > 0)
             {
-                ListViewItem selected = listView1.SelectedItems[0];
-                string columnName = selected.Text;
+                // Seçili öğeyi al
+                ListViewItem selectedNote = listView1.SelectedItems[0];
 
                 try
                 {
@@ -126,25 +102,28 @@ namespace VisualProg_Project_1
                     {
                         connection.Open();
 
-                        // Öğretmen adı ve soyadı burada bir değerle değiştirilmelidir.
-                        string teacherName = "Emre";
-                        string teacherSurname = "Baş";
+                        // Seçili notu veritabanından silen sorgu
+                        string query = "DELETE FROM tch_note WHERE subject = @subject AND noteText = @noteText";
 
-                        string query = $"UPDATE teachers SET {columnName} = NULL WHERE name = @TeacherName AND surname = @TeacherSurname";
                         using (SqlCommand command = new SqlCommand(query, connection))
                         {
-                            command.Parameters.AddWithValue("@TeacherName", teacherName);
-                            command.Parameters.AddWithValue("@TeacherSurname", teacherSurname);
+                            // Parametreleri ekleyin
+                            command.Parameters.AddWithValue("@subject", selectedNote.SubItems[0].Text);
+                            command.Parameters.AddWithValue("@noteText", selectedNote.SubItems[1].Text);
 
-                            int affectedRows = command.ExecuteNonQuery();
-                            if (affectedRows > 0)
+                            // Sorguyu çalıştırın
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
                             {
-                                MessageBox.Show($"Not başarıyla silindi: {columnName}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                PopulateListView(); // Listeyi güncelle
+                                MessageBox.Show("Not deleted", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // ListView'ı güncelleyin
+                                PopulateListView();
                             }
                             else
                             {
-                                MessageBox.Show($"Not silinirken bir hata oluştu: {columnName}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Error", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -156,7 +135,7 @@ namespace VisualProg_Project_1
             }
             else
             {
-                MessageBox.Show("Lütfen silmek istediğiniz notu seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please choose a note", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

@@ -47,7 +47,7 @@ namespace VisualProg_Project_1
                     user_password = txt_password.Text;
 
                     
-                     
+
                     //page that needed to be load
                     Form2 form1 = new Form2();
                     form1.Show();

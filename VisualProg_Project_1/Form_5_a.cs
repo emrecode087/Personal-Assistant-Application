@@ -26,81 +26,36 @@ namespace VisualProg_Project_1
                 {
                     connection.Open();
 
-                    // NoteIndex değerini al
-                    int noteIndex = GetNoteIndex(connection);
+                    // Önce sorgunuzu oluşturun
+                    string insertQuery = "INSERT INTO tch_note (subject, NoteText) VALUES (@subject, @noteText)";
 
-                    // Eğer noteIndex 11'e ulaştıysa, sıfırla
-                    if (noteIndex >= 14)
+                    // Sonra SqlCommand nesnesi oluşturun ve parametreleri ekleyin
+                    using (SqlCommand command = new SqlCommand(insertQuery, connection))
                     {
-                        noteIndex = 1;
-                    }
+                        command.Parameters.AddWithValue("@subject", new_reminder_textBox.Text);
+                        command.Parameters.AddWithValue("@noteText", new_reminder_richBox.Text);
 
-                    string columnName = $"note_{noteIndex}";
-                    string textBoxValue = new_reminder_textBox.Text;
-                    string richTextBoxValue = new_reminder_richBox.Text;
+                        // Sorguyu çalıştırın
+                        int affectedRows = command.ExecuteNonQuery();
 
-                    // Önce var olan veriyi kontrol et
-                    if (CheckNoteExistence(connection, columnName))
-                    {
-                        MessageBox.Show($"Lütfen hatırlatma kutunuzda yer açınız: {columnName}", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        // Notu ekleyin
-                        string query = $"UPDATE teachers SET {columnName} = @Note, noteIndex = @NewNoteIndex WHERE name = @TeacherName AND surname = @TeacherSurname";
-                        using (SqlCommand command = new SqlCommand(query, connection))
+                        if (affectedRows > 0)
                         {
-                            command.Parameters.AddWithValue("@TeacherName", "Emre"); // Öğretmen adını burada bir değerle değiştirin
-                            command.Parameters.AddWithValue("@TeacherSurname", "Baş"); // Öğretmen soyadını burada bir değerle değiştirin
-                            command.Parameters.AddWithValue("@Note", $"{textBoxValue} - {richTextBoxValue}");
-                            command.Parameters.AddWithValue("@NewNoteIndex", noteIndex + 1);
-
-                            int affectedRows = command.ExecuteNonQuery();
-                            if (affectedRows > 0)
-                            {
-                                MessageBox.Show($"Not başarıyla eklendi: {columnName}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show($"Not eklenirken bir hata oluştu: {columnName}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                            MessageBox.Show("Note added.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("There is a problem ! ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"HATA: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"HATA: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private bool CheckNoteExistence(SqlConnection connection, string columnName)
-        {
-            // Veritabanında belirli bir sütunun değerinin NULL olup olmadığını kontrol et
-            string query = $"SELECT {columnName} FROM teachers WHERE name = @TeacherName AND surname = @TeacherSurname";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@TeacherName", "Emre"); // Öğretmen adını burada bir değerle değiştirin
-                command.Parameters.AddWithValue("@TeacherSurname", "Baş"); // Öğretmen soyadını burada bir değerle değiştirin
 
-                object result = command.ExecuteScalar();
-                return result != null && result != DBNull.Value;
-            }
-        }
-
-        private int GetNoteIndex(SqlConnection connection)
-        {
-            // Veritabanındaki noteIndex değerini al
-            string query = $"SELECT noteIndex FROM teachers WHERE name = @TeacherName AND surname = @TeacherSurname";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@TeacherName", "Emre"); // Öğretmen adını burada bir değerle değiştirin
-                command.Parameters.AddWithValue("@TeacherSurname", "Baş"); // Öğretmen soyadını burada bir değerle değiştirin
-
-                object result = command.ExecuteScalar();
-                return result != null && result != DBNull.Value ? Convert.ToInt32(result) : 1;
-            }
-        }
         bool move;
         int mouse_x;
         int mouse_y;

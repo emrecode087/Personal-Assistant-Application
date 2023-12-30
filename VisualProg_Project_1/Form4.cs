@@ -59,7 +59,7 @@ namespace VisualProg_Project_1
                 {
                     connection.Open();
 
-                    string query = "SELECT DISTINCT class_1, class_2, class_3, class_4, class_5 FROM teachers";
+                    string query = "SELECT DISTINCT class_1, class_2, class_3, class_4, class_5 FROM teachers WHERE name = 'Emre'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -297,6 +297,7 @@ namespace VisualProg_Project_1
         bool move;
         int mouse_x;
         int mouse_y;
+       
 
         private void Form4_MouseDown(object sender, MouseEventArgs e)
         {
